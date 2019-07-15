@@ -45,10 +45,14 @@
 //   document.querySelector(".questions_container").innerHTML = generateQuestions(questionList);
 // }
 
+
+
 let questionList = [
   {
     id: "question-1",
     no: 'Question 1',
+    class: 'question1',
+
     question: "Did you have a good sleep",
     answers: ["Yes I did", "No I did not"],
     correctAnswer: "Yes I did"
@@ -56,6 +60,7 @@ let questionList = [
   {
     id: "question-2",
     no: 'Question 2',
+    class: 'question2',
 
     question: "How is your day",
     answers: ["Nice and good", "Great and Lovely", "Not so good"],
@@ -73,12 +78,75 @@ let generateQuestions = (questionList) => questionList.map(questionAndAnswers =>
 let buildQuestionRow = (questionAndAnswers) => {
   let answers = questionAndAnswers.answers.map((answer) => `<label for="${questionAndAnswers.id}">
 
-  <input class="option-${questionAndAnswers.id}" type="radio" name="${questionAndAnswers.id}" />${answer}</label
+  <input type="radio" name="${questionAndAnswers.id}" />${answer}</label
 >`);
 
-  return `<div class="${questionAndAnswers.id}"><h1>${questionAndAnswers.no}: ${questionAndAnswers.question}</h1><div>${answers.join('')}</div></div>`
+  return `<div class="${questionAndAnswers.class}"><h1>${questionAndAnswers.no}: ${questionAndAnswers.question}</h1><div>${answers.join('')}</div></div>`
 }
+
+
 
 window.onload = function () {
   document.querySelector(".questions_container").innerHTML = generateQuestions(questionList);
+
+  let button = document.querySelector('.button');
+  let message = document.querySelector('.message');
+  let nextBtn = document.querySelector('.next');
+  let prevBtn = document.querySelector('.previous');
+  let questions = document.querySelectorAll('.questions_container');
+  let questionOne = document.querySelector('.question1');
+  let questionTwo = document.querySelector('.question2');
+
+  let score;
+
+  nextQuestion = () => {
+    if (questionOne.nextElementSibling == null) {
+      questionOne.style.display = 'block';
+    } else {
+      //else return the next sibling of the elem.
+      questionOne.nextElementSibling.style.display = 'block';
+      questionOne.style.display = 'none';
+
+    }
+
+  }
+
+  questionList.answers[0];
+
+  previousQuestion = () => {
+    if (questionOne.nextElementSibling == null) {
+      questionOne.style.display = 'block';
+    } else {
+      questionOne.style.display = 'block';
+    }
+    questionTwo.style.display = 'none';
+  }
+
+
+  let valInput = () => {
+    const q1 = document.getElementById('1');
+    const q2 = document.getElementById('4');
+    if (q1.checked == true) {
+      score = 1;
+
+    }
+    if (q2.checked == true) {
+      score++;
+
+    } else if ((q2.checked == false) && (q1.checked == false)) {
+      score = 0;
+    }
+    else {
+      score = score;
+    }
+    score = `${score}/2`;
+    message.innerHTML = score;
+    console.log(message);
+
+  }
+
+  button.addEventListener('click', valInput);
+  nextBtn.addEventListener('click', nextQuestion);
+  prevBtn.addEventListener('click', previousQuestion);
+
 }
